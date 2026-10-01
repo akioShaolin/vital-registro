@@ -2,12 +2,6 @@
 
 Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.0 é de desenvolvimento, não estável ou produção.
 
-## [Unreleased]
-
-### Changed
-
-- Documentação de fechamento da v0.1.0 consolidada com Samsung Galaxy M55, ambiente efetivo e cópia do `build-info.json`; sem alterações funcionais ou de dependências.
-
 ## [0.1.0] - 2026-09-30
 
 ### Fixed
@@ -26,6 +20,13 @@ Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.
 - Testes de área segura e adaptação SAF, além de smoke para métricas/períodos e exportações repetidas.
 
 Os ajustes acima constam do commit `895c3dc2a1cff899107797aa92c391f79b14af91`, identificado no build-info fornecido para a v0.1.0. Sua presença no código não comprova validação visual ou de todos os fluxos em aparelho. Versões da cadeia de build e permissões Android preservadas.
+
+### Fechamento documental
+
+- Documentação da v0.1.0 consolidada com Samsung Galaxy M55, ambiente efetivo e cópia do `build-info.json`; sem alterações funcionais ou de dependências.
+- Guia de contribuição distingue execução local, CI, kernel Colab, ambiente de build e Python embarcado no APK.
+
+O fechamento documental pertence à v0.1.0, mas é posterior ao commit que produziu o APK acima. O commit de documentação não substitui o commit do build registrado no JSON, nem representa uma nova compilação ou validação em hardware.
 
 ### Added
 
