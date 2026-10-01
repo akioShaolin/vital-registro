@@ -101,21 +101,21 @@ No Windows, utilize `.\.venv\Scripts\python.exe` no lugar de `python`. Para um t
 
 ## Android / APK
 
-A compilação acontece em Linux, inclusive WSL2; não diretamente no Windows. O caminho inicial usa Python 3.12, Java 17, Buildozer 1.6.0, API 35, NDK 25b e arquitetura ARM64, com mínimo Android 7 (API 24).
+A compilação acontece em Linux x86_64, inclusive WSL2; não diretamente no Windows. O setup prepara CPython 3.14.7 isolado, Java 17, Buildozer e p4a `develop` em commits fixos, API 36 e NDK 29. O APK ARM64 tem mínimo Android 7 (API 24). O Python embarcado é 3.14.2, conforme as recipes fixadas do p4a.
 
 Depois de preparar as ferramentas conforme [docs/ANDROID.md](docs/ANDROID.md):
 
 ```bash
-buildozer -v android debug
+.venv-build/bin/python scripts/build_android.py
 ```
 
 O resultado esperado fica em `bin/*.apk`. A configuração não solicita permissões de internet ou armazenamento e desativa o backup automático Android. O domínio `org.vitalregistro` é um identificador técnico inicial; não representa a posse de um domínio web.
 
 ## Google Colab
 
-Abra [`docs/build_colab.ipynb`](docs/build_colab.ipynb) no Colab. O notebook recebe a URL do repositório, instala ferramentas, compila e oferece download do APK. Não contém token nem depende do Google Drive. É necessário acesso à internet **no ambiente de compilação** para baixar ferramentas e código.
+Abra [`docs/build_colab.ipynb`](docs/build_colab.ipynb) no Colab. O notebook clona `https://github.com/akioShaolin/vital-registro.git`, instala ferramentas, executa testes, compila e oferece download do APK. Publique as alterações do fluxo nesse repositório antes de executar. Não contém token nem depende do Google Drive. É necessário acesso à internet **no ambiente de compilação** para baixar ferramentas e código.
 
-O notebook verifica a versão Python e interrompe se o ambiente não corresponder ao fluxo documentado. Recursos, duração da sessão e versões do Colab podem mudar; a compilação ainda exige validação nesse ambiente.
+O notebook informa a versão real do kernel e prepara o Python de build separadamente quando ela difere de 3.14.7, sem substituir o runtime do Colab. Verifica novamente o interpretador escolhido antes de compilar. Recursos e duração da sessão podem mudar; a compilação ainda exige validação nesse ambiente. Veja a [matriz e as fontes oficiais](docs/ANDROID.md).
 
 ## Armazenamento dos dados
 

@@ -4,6 +4,13 @@ As mudanças relevantes serão registradas aqui, em estrutura inspirada no Keep 
 
 ## [Unreleased]
 
+### Changed
+
+- Fluxo Colab detecta o kernel e prepara CPython 3.14.7 isolado para build, sem exigir downgrade para 3.12.
+- Buildozer e p4a develop fixados em commits; API 36, NDK 29 e Java 17; Python Android/hostpython 3.14.2.
+- Notebook aponta para o repositório real, executa testes no Python de build e bloqueia download após falha.
+- Testes de seleção de ambiente e falhas adicionados; CI inclui Python 3.14. Build Android completo continua pendente.
+
 ### Added
 
 - Implementação inicial em Kivy de cadastro, histórico, detalhes, edição e exclusão com confirmação.

@@ -1,4 +1,8 @@
-# Linux, Python 3.12; separate from application dependencies.
-buildozer==1.6.0
-Cython==0.29.34
-setuptools==80.9.0
+# Linux, isolated CPython 3.14.7. Not application requirements.
+# Buildozer master (1.6.1.dev0), pinned instead of a moving branch.
+buildozer @ git+https://github.com/kivy/buildozer.git@a153097b3c534bea8a17da2abf1369d67c8cbfcb
+# This Buildozer revision requires Cython<3.4. Recipe-specific build
+# dependencies (including Kivy's Cython) are managed separately by p4a.
+Cython==3.3.0
+setuptools==84.0.0
+legacy-cgi==2.6.4

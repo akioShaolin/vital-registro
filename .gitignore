@@ -13,6 +13,7 @@ venv/
 *.egg-info/
 # Build / Android
 .buildozer/
+.build-tools/
 bin/
 build/
 dist/
