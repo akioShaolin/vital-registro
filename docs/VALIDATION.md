@@ -1,8 +1,8 @@
-# Validação — primeiro APK e revisão posterior
+# Validação — v0.1.0
 
 ## Evidência em aparelho fornecida pelo autor
 
-Marco em **30/09/2026**, APK `vitalregistro-0.1.0-arm64-v8a-debug.apk`, **26.009.326 bytes**. Compilação e download pelo Google Colab com kernel **Python 3.13.15**; instalação e uso em **Android 16 físico**. Modelo não informado. As [quatro capturas](screenshots/README.md) contêm dados fictícios confirmados pelo autor.
+Primeiro marco funcional em **30/09/2026**. Para o fechamento, o autor forneceu o [build-info.json](releases/v0.1.0/build-info.json) do APK `vitalregistro-0.1.0-arm64-v8a-debug.apk`, **26.306.986 bytes**, **DEBUG + ARM64-V8A**. Ambiente Colab Python **3.13.15**, Python de build **3.14.7**, API **36** e NDK **29**; commits e SHA-256 informado estão em [ANDROID.md](ANDROID.md#evidência-do-build-da-v010). Instalação e uso confirmados no **Samsung Galaxy M55 com Android 16**. As [quatro capturas históricas](screenshots/README.md) contêm dados fictícios e antecedem os ajustes visuais; não documentam uma nova verificação desses ajustes.
 
 | Funcionalidade | Evidência |
 | --- | --- |
@@ -10,13 +10,13 @@ Marco em **30/09/2026**, APK `vitalregistro-0.1.0-arm64-v8a-debug.apk`, **26.009
 | Instalação e inicialização no Android 16 | Confirmadas pelo autor; Home capturada |
 | Criação e persistência de registro | Confirmadas pelo autor |
 | Histórico e apresentação compacta | Confirmados pelo autor e captura |
-| Abrir gráficos e representar uma medição | Confirmados pelo autor e captura |
+| Abrir gráficos e representar corretamente uma única medição | Confirmados pelo autor e captura |
 
-O relato do autor comprova esse marco; não equivale a teste independente de todas as funcionalidades. Não foi recebido o APK/log original para inspecionar manifesto, calcular hash ou recuperar o HEAD p4a efetivo. Os commits **configurados** estão em [ANDROID.md](ANDROID.md). O notebook registra a proveniência efetiva nos próximos builds.
+O relato do autor registra esse marco; não equivale a teste independente de todas as funcionalidades. O JSON fornece os commits efetivos do projeto, p4a e Buildozer e o hash informado do artefato. O APK não foi inspecionado nem seu hash recalculado nesta revisão documental. Não foi executado novo build nesta tarefa.
 
-## Verificações locais da revisão posterior
+## Verificações locais anteriores ao fechamento documental
 
-Executadas no Windows com Python 3.13.3 e Kivy 2.3.1; a suíte independente também é executável no Python de build. Nenhuma nova compilação Android foi feita nesta revisão.
+Resultados registrados na revisão de código anterior, no Windows com Python 3.13.3 e Kivy 2.3.1; não são testes repetidos neste fechamento documental nem testes de hardware. A suíte independente também é executável no Python de build.
 
 | Verificação | Resultado |
 | --- | --- |
@@ -33,9 +33,9 @@ Os testes novos verificam o cálculo da sobreposição de barras/teclado sem mar
 
 O smoke usa apenas dados fictícios temporários e exercita detalhes/edição, gráficos vazios, uma e múltiplas medições, pressão/pulso/peso, períodos 7/30/todos, seletores, exportações repetidas e exclusão. Os testes de seleção do Python usam subprocessos simulados, separados da evidência do build fornecida pelo autor.
 
-## Pendente no próximo APK
+## Pendente de validação em aparelho
 
-- Confirmar a transparência no launcher e a Home após reconstruir o APK.
+- Confirmar a transparência no launcher e a aparência da Home no APK com os ajustes.
 - Conferir topo/rodapé, Cancelar totalmente acessível, rolagem e foco com teclado aberto em Android 16; testar gestos e navegação por botões.
 - Testar edição de **todos** os campos, reordenação histórica e cancelamento/confirmação de exclusão.
 - Conferir sistólica/diastólica, pulso e peso, múltiplas medições e todos os períodos no aparelho.

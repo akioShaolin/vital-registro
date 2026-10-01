@@ -4,11 +4,11 @@ Aplicativo Android open source desenvolvido em Python/Kivy para registrar press�
 
 ## Sobre o projeto
 
-O VitalRegistro surgiu da necessidade de manter um histórico organizado das medições feitas com um aparelho doméstico de pressão arterial. Registra sistólica, diastólica, pulso, peso, data, horário e observações. **Data e horário são editáveis** e representam o momento real da medição, mesmo quando ela é inserida posteriormente.
+O VitalRegistro surgiu de uma necessidade pessoal: após algumas semanas com dores frequentes na nuca, o autor comprou um aparelho de pressão arterial e decidiu organizar as medições em um histórico. Esse foi o motivo para começar o acompanhamento; não foi estabelecida uma relação entre o sintoma e pressão arterial elevada. Registra sistólica, diastólica, pulso, peso, data, horário e observações. **Data e horário são editáveis** e representam o momento real da medição, mesmo quando ela é inserida posteriormente.
 
-**A versão 0.1.0 é a primeira versão funcional de desenvolvimento.** O APK debug ARM64 foi compilado no Google Colab, baixado, instalado e executado em aparelho físico com Android 16, conforme relato do autor. Criação, persistência, histórico e visualização inicial dos gráficos foram confirmados. Não é uma release estável; consulte [o escopo da validação](docs/VALIDATION.md), inclusive o que ainda precisa ser testado.
+**A versão 0.1.0 é a primeira versão funcional de desenvolvimento.** O APK debug ARM64 foi compilado no Google Colab, baixado, instalado e executado em um Samsung Galaxy M55 com Android 16, conforme relato do autor. Criação, persistência, histórico e abertura dos gráficos e representação correta de uma única medição foram confirmados. Não é uma release estável; consulte [o escopo da validação](docs/VALIDATION.md), inclusive o que ainda precisa ser testado.
 
-Funciona offline, sem anúncios, conta, assinatura ou telemetria. Os dados ficam no dispositivo. O histórico editável e os gráficos ajudam a apresentar medições organizadas a um médico ou outro profissional de saúde. **O VitalRegistro registra e organiza dados; não realiza diagnóstico.**
+Funciona offline, sem anúncios, conta, assinatura ou telemetria. Os dados ficam no dispositivo. O histórico editável e os gráficos ajudam a apresentar medições organizadas a um médico ou outro profissional de saúde. **O VitalRegistro registra, organiza, apresenta e exporta dados; não realiza diagnóstico, não classifica automaticamente condições médicas e não substitui avaliação profissional.**
 
 ## Funcionalidades
 
@@ -24,7 +24,7 @@ As validações numéricas apenas evitam erros de digitação; não classificam 
 
 ## Screenshots
 
-Capturas reais do primeiro APK em Android 16, com **dados fictícios confirmados pelo autor**. Elas documentam a versão anterior aos ajustes de transparência, áreas seguras e seletores desta revisão.
+Capturas históricas do primeiro APK no Samsung Galaxy M55 com Android 16, com **dados fictícios confirmados pelo autor**. Elas documentam a versão anterior aos ajustes de transparência, áreas seguras e seletores; não comprovam a aparência do artefato identificado abaixo.
 
 <table>
   <tr><th>Home</th><th>Novo Registro</th><th>Meus Registros</th><th>Gráficos</th></tr>
@@ -119,13 +119,13 @@ Depois de preparar as ferramentas conforme [docs/ANDROID.md](docs/ANDROID.md):
 .venv-build/bin/python scripts/build_android.py
 ```
 
-O primeiro resultado foi `vitalregistro-0.1.0-arm64-v8a-debug.apk` (26.009.326 bytes). Os APKs ficam em `bin/`, ignorado pelo Git. A configuração não solicita permissões de internet ou armazenamento e desativa o backup automático Android. O domínio `org.vitalregistro` é um identificador técnico inicial; não representa a posse de um domínio web.
+O artefato documentado para o fechamento da v0.1.0 é `vitalregistro-0.1.0-arm64-v8a-debug.apk` (**26.306.986 bytes**, **DEBUG + ARM64-V8A**), conforme o [build-info.json fornecido](docs/releases/v0.1.0/build-info.json). Commit do projeto, SHA-256 informado e ambiente estão em [ANDROID.md](docs/ANDROID.md#evidência-do-build-da-v010). Esse JSON deverá acompanhar o APK na futura GitHub Release; tag e release ainda não foram criadas nesta preparação. Os APKs ficam em `bin/`, ignorado pelo Git. A configuração não solicita permissões de internet ou armazenamento e desativa o backup automático Android. O domínio `org.vitalregistro` é um identificador técnico inicial; não representa a posse de um domínio web.
 
 ## Google Colab
 
 Abra [`docs/build_colab.ipynb`](docs/build_colab.ipynb) no Colab. O notebook clona `https://github.com/akioShaolin/vital-registro.git`, instala ferramentas, executa testes, compila e oferece download do APK. Publique as alterações do fluxo nesse repositório antes de executar. Não contém token nem depende do Google Drive. É necessário acesso à internet **no ambiente de compilação** para baixar ferramentas e código.
 
-O primeiro build funcional utilizou kernel Colab **Python 3.13.15**. O notebook prepara o Python de build 3.14.7 separadamente, sem substituir esse kernel. A combinação foi preservada nesta revisão; novos APKs com as correções de interface precisam ser testados novamente. Veja a [matriz e as fontes oficiais](docs/ANDROID.md).
+O build documentado utilizou kernel Colab **Python 3.13.15**. O notebook prepara o Python de build 3.14.7 separadamente, sem substituir esse kernel. A combinação foi preservada neste fechamento documental; os testes de hardware confirmados e as verificações pendentes estão em [VALIDATION.md](docs/VALIDATION.md). Veja a [matriz e as fontes oficiais](docs/ANDROID.md).
 
 ## Armazenamento dos dados
 
@@ -156,7 +156,7 @@ A geração CSV foi testada automaticamente, e os fluxos do adaptador Android fo
 
 ## Limitações conhecidas
 
-- O primeiro APK já executou em Android 16; edição/exclusão, exportação, teclado, retomada e os ajustes desta revisão ainda precisam de teste em aparelho.
+- O uso básico foi confirmado no Samsung Galaxy M55 com Android 16; edição/exclusão, exportação, teclado, retomada e detalhes dos ajustes visuais ainda precisam de teste em aparelho.
 - Sem intervalo personalizado de gráficos, importação, sincronização ou criptografia própria.
 - Gráficos mostram todas as medições do período; históricos grandes podem ficar densos. A lista limita widgets por lote, mas lê o histórico completo do banco.
 - Formulário não salvo pode se perder se o sistema encerrar o processo; registros já salvos permanecem no SQLite.

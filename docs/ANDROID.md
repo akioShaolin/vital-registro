@@ -4,7 +4,7 @@
 
 O notebook anterior exigia Python 3.10–3.12 e combinava p4a `master`, API 35 e NDK 25b. Ele interrompia no Python 3.13 do Colab antes de instalar as ferramentas. Remover essa restrição não atualizaria as recipes, o compilador nativo nem as dependências Python.
 
-O Google anunciou a [migração do Colab para Python 3.13](https://github.com/googlecolab/colabtools/issues/6081) em agosto de 2026. O primeiro build funcional deste projeto utilizou **Python 3.13.15 no kernel**, conforme informado pelo autor. A primeira célula imprime a versão da sessão real, que pode variar entre imagens.
+O Google anunciou a [migração do Colab para Python 3.13](https://github.com/googlecolab/colabtools/issues/6081) em agosto de 2026. O build documentado deste projeto utilizou **Python 3.13.15 no kernel**, conforme o build-info fornecido pelo autor. A primeira célula imprime a versão da sessão real, que pode variar entre imagens.
 
 O fluxo novo separa três interpretadores:
 
@@ -14,7 +14,7 @@ O fluxo novo separa três interpretadores:
 
 ## Combinação selecionada
 
-Esta é a configuração preservada do fluxo que o autor confirmou ter produzido o primeiro APK funcional em 30/09/2026. Nenhuma versão de Python, Buildozer, p4a, Kivy, SDK, NDK ou Java foi trocada na revisão pós-build.
+Esta é a configuração preservada do build bem-sucedido documentado para a v0.1.0. Nenhuma versão de Python, Buildozer, p4a, Kivy, SDK, NDK ou Java foi trocada neste fechamento documental.
 
 | Componente | Seleção e função |
 | --- | --- |
@@ -31,17 +31,29 @@ Esta é a configuração preservada do fluxo que o autor confirmou ter produzido
 | Bootstrap / ABI | SDL2 / arm64-v8a |
 | Ferramentas Python do build | Cython 3.3.0, setuptools 84.0.0, legacy-cgi 2.6.4 |
 
-### Evidência do primeiro build
+### Evidência do build da v0.1.0
 
-- Arquivo: `vitalregistro-0.1.0-arm64-v8a-debug.apk`.
-- Tamanho informado: **26.009.326 bytes**.
-- Compilado e baixado pelo Google Colab, kernel **Python 3.13.15**.
-- Instalado e iniciado em aparelho físico com **Android 16**; modelo não informado.
-- Criação e persistência de registro, histórico e representação inicial no gráfico confirmados pelo autor.
+O [build-info.json fornecido pelo autor](releases/v0.1.0/build-info.json) foi preservado sem alterações como registro do ambiente efetivamente utilizado. Ele identifica:
 
-Os commits na tabela estão identificados e fixados no repositório: p4a `e772ad93f20a61c0bbe1cf8955e073cfb41062e1` e Buildozer `a153097b3c534bea8a17da2abf1369d67c8cbfcb`. **Não recebemos o log/HEAD efetivo nem o APK local desse build para confirmar independentemente os commits ou calcular seu hash.** A configuração declarada não deve ser confundida com uma inspeção do binário. O notebook passa a guardar `bin/build-info.json` com commit efetivo p4a, commit do projeto, versões e SHA-256 dos APKs nas próximas execuções.
+| Campo | Valor registrado |
+| --- | --- |
+| Kernel Colab | Python 3.13.15 |
+| Python de build | Python 3.14.7 |
+| Commit do projeto | `895c3dc2a1cff899107797aa92c391f79b14af91` |
+| Commit p4a | `e772ad93f20a61c0bbe1cf8955e073cfb41062e1` |
+| Commit Buildozer | `a153097b3c534bea8a17da2abf1369d67c8cbfcb` |
+| Android API / NDK | 36 / 29 |
+| APK | `vitalregistro-0.1.0-arm64-v8a-debug.apk` |
+| Tamanho | **26.306.986 bytes** |
+| SHA-256 informado | `259866134942d6990cf9f157603e3f024538b1101006a633fda633d5d386765a` |
 
-As [capturas reais](screenshots/README.md) são do primeiro APK, antes das correções visuais desta revisão. Gerar novamente o APK e conferir essas correções em Android 16 é uma etapa pendente; não invalida o marco já alcançado.
+O JSON também guarda a lista efetiva de pacotes Python do ambiente de build. Java 17, Kivy 2.3.1, Python embarcado 3.14.2 e API mínima 24 são escolhas da configuração preservada; o JSON não registra diretamente todos esses componentes. Não é um inventário completo do sistema nem garantia de reprodução binária idêntica.
+
+O autor confirmou instalação e inicialização no **Samsung Galaxy M55 com Android 16**, criação e persistência local, histórico, abertura de gráficos e representação correta de uma única medição. O APK permanece **DEBUG + ARM64-V8A**. O binário não foi inspecionado nem seu hash recalculado nesta revisão documental; tamanho e SHA-256 acima foram transcritos do JSON, não obtidos de uma compilação executada aqui.
+
+As [capturas históricas](screenshots/README.md) antecedem as correções visuais incluídas no commit identificado. Não devem ser usadas para afirmar que transparência, áreas seguras, teclado ou exportação foram testados no artefato de 26.306.986 bytes. Consulte [VALIDATION.md](VALIDATION.md) para o escopo confirmado.
+
+Guarde `build-info.json` junto ao APK: ambos deverão acompanhar a futura GitHub Release **VitalRegistro v0.1.0**, tag planejada `v0.1.0`. Esta tarefa apenas prepara a documentação; não cria tag, release ou commit de APK.
 
 A [documentação atual do Buildozer](https://buildozer.readthedocs.io/en/latest/installation/) indica o fluxo moderno com Python 3.14, p4a develop, API 36 e NDK 29, mantendo Java 17. Fixamos commits para evitar mudanças silenciosas nas branches.
 
@@ -99,6 +111,6 @@ O aplicativo permanece offline. `android.permissions` continua vazio, `android.a
 
 Testes de lógica e seleção de ambiente podem ser executados localmente sem SDK. Os testes da preparação usam subprocessos simulados para verificar a escolha do Python e a propagação de falhas; não provam compilação nativa.
 
-**O primeiro build Colab e o uso básico em Android 16 foram confirmados pelo autor.** Nesta revisão, as correções posteriores foram verificadas localmente, sem gerar outro APK. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
+**O build Colab e o uso básico no Samsung Galaxy M55 com Android 16 foram confirmados pelo autor.** Nesta revisão exclusivamente documental, não foi executado build nem repetida a validação funcional. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
 
-No próximo APK, confira o ícone do launcher, margens de status/navegação, formulário e teclado, edição/exclusão, todos os gráficos/períodos, exportação/cancelamento e suspensão/retomada. A exportação SAF está implementada e revisada, mas ainda não foi confirmada em aparelho. Publicação na Play Store continua fora deste fluxo debug.
+Na próxima rodada de testes em aparelho, confira o ícone do launcher, margens de status/navegação, formulário e teclado, edição/exclusão, todos os gráficos/períodos, exportação/cancelamento e suspensão/retomada. A exportação SAF está implementada e revisada, mas ainda não foi confirmada em aparelho. Publicação na Play Store continua fora deste fluxo debug.

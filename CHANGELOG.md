@@ -4,6 +4,12 @@ Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.
 
 ## [Unreleased]
 
+### Changed
+
+- Documentação de fechamento da v0.1.0 consolidada com Samsung Galaxy M55, ambiente efetivo e cópia do `build-info.json`; sem alterações funcionais ou de dependências.
+
+## [0.1.0] - 2026-09-30
+
 ### Fixed
 
 - Fundo externo preto do ícone convertido em transparência, preservando dimensões e canais RGB originais; Home e launcher continuam referenciando o mesmo asset.
@@ -19,9 +25,7 @@ Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.
 - Notebook salva metadados e hashes dos próximos APKs em `bin/build-info.json`.
 - Testes de área segura e adaptação SAF, além de smoke para métricas/períodos e exportações repetidas.
 
-Esses ajustes posteriores ao primeiro APK ainda precisam de nova compilação e teste em aparelho. Versões da cadeia de build e permissões Android preservadas.
-
-## [0.1.0] - 2026-09-30
+Os ajustes acima constam do commit `895c3dc2a1cff899107797aa92c391f79b14af91`, identificado no build-info fornecido para a v0.1.0. Sua presença no código não comprova validação visual ou de todos os fluxos em aparelho. Versões da cadeia de build e permissões Android preservadas.
 
 ### Added
 
@@ -35,12 +39,12 @@ Esses ajustes posteriores ao primeiro APK ainda precisam de nova compilação e 
 
 ### Validated
 
-Confirmado pelo autor em aparelho físico Android 16:
+Confirmado pelo autor no **Samsung Galaxy M55 com Android 16**:
 
-- APK debug ARM64 compilado no Colab e baixado: `vitalregistro-0.1.0-arm64-v8a-debug.apk`, 26.009.326 bytes.
+- APK debug ARM64 compilado no Colab e baixado: `vitalregistro-0.1.0-arm64-v8a-debug.apk`, 26.306.986 bytes, conforme o [build-info.json](docs/releases/v0.1.0/build-info.json).
 - Instalação e inicialização do aplicativo.
 - Criação e persistência de registro.
 - Visualização do registro no histórico.
-- Abertura da tela de gráficos e representação inicial de uma medição.
+- Abertura da tela de gráficos e representação correta de um gráfico contendo apenas uma medição.
 
-Edição/exclusão, exportação CSV no seletor Android, todos os períodos/métricas, teclado e ciclo de vida ainda não foram confirmados em aparelho. Não foi criada release estável automaticamente. Veja [VALIDATION.md](docs/VALIDATION.md).
+Edição/exclusão, exportação CSV no seletor Android, todos os períodos/métricas, teclado e ciclo de vida ainda não foram confirmados em aparelho. O artefato é **DEBUG + ARM64-V8A**, primeiro marco funcional, sem indicação de estabilidade ou prontidão para Google Play. Nenhuma tag ou GitHub Release foi criada neste fechamento documental. Veja [VALIDATION.md](docs/VALIDATION.md).
