@@ -1,0 +1,44 @@
+# Python and editors
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+.venv-build/
+venv/
+.idea/
+.vscode/
+*.egg-info/
+# Build / Android
+.buildozer/
+bin/
+build/
+dist/
+*.apk
+*.aab
+*.keystore
+*.jks
+# Private runtime data (fixtures CSV remain allowed)
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+runtime/
+exports/
+tests/output/
+.env
+.env.*
+*.pem
+*.key
+# Temporary / machine files
+*.log
+*.tmp
+*.bak
+.kivy/
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db

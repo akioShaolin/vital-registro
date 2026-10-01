@@ -1,0 +1,49 @@
+#:import dp kivy.metrics.dp
+
+<Screen>:
+    canvas.before:
+        Color:
+            rgba: .95, .97, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<VitalButton>:
+    font_size: '16sp'
+    size_hint_y: None
+    height: dp(52)
+    background_normal: ''
+    background_down: ''
+    background_color: 0, 0, 0, 0
+    color: (1, 1, 1, 1) if self.primary else (0.06, 0.15, 0.29, 1)
+    text_size: self.width - dp(20), self.height
+    halign: 'center'
+    valign: 'middle'
+    canvas.before:
+        Color:
+            rgba: (0.06, 0.38, 0.73, 1) if self.primary else (0.87, 0.93, 0.98, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(14)]
+
+<BodyLabel>:
+    color: 0.06, 0.15, 0.29, 1
+    font_size: '16sp'
+    size_hint_y: None
+    height: max(dp(34), self.texture_size[1] + dp(12))
+    text_size: self.width - dp(8), None
+    halign: 'left'
+    valign: 'middle'
+
+<Field>:
+    size_hint_y: None
+    height: dp(48)
+    multiline: False
+    font_size: '18sp'
+    padding: dp(12), dp(12)
+    foreground_color: 0.06, 0.15, 0.29, 1
+    background_normal: ''
+    background_active: ''
+    background_color: 1, 1, 1, 1
+    cursor_color: 0.06, 0.38, 0.73, 1

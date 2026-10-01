@@ -1,0 +1,4 @@
+# Linux, Python 3.12; separate from application dependencies.
+buildozer==1.6.0
+Cython==0.29.34
+setuptools==80.9.0
