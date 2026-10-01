@@ -8,7 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
-from kivy.uix.spinner import Spinner
+from kivy.uix.spinner import Spinner, SpinnerOption
 from kivy.metrics import dp
 
 
@@ -22,6 +22,26 @@ class BodyLabel(Label):
 
 class Field(TextInput):
     pass
+
+
+class ChoiceOption(SpinnerOption):
+    pass
+
+
+class ChoiceSpinner(Spinner):
+    """Keep the selection on the button; show only alternatives in its menu."""
+
+    def __init__(self, **kwargs):
+        kwargs.setdefault("option_cls", ChoiceOption)
+        super().__init__(**kwargs)
+        self.bind(text=self._update_dropdown)
+
+    def _update_dropdown(self, *_):
+        super()._update_dropdown()
+        if self._dropdown:
+            for option in list(self._dropdown.container.children):
+                if option.text == self.text:
+                    self._dropdown.container.remove_widget(option)
 
 
 def button(text, callback, primary=False):

@@ -4,9 +4,11 @@ Aplicativo Android open source desenvolvido em Python/Kivy para registrar press�
 
 ## Sobre o projeto
 
-Um diário pessoal simples para consultar e corrigir medições ao longo do tempo. **Data e horário são editáveis**: é possível registrar hoje uma medição realizada em outro dia.
+O VitalRegistro surgiu da necessidade de manter um histórico organizado das medições feitas com um aparelho doméstico de pressão arterial. Registra sistólica, diastólica, pulso, peso, data, horário e observações. **Data e horário são editáveis** e representam o momento real da medição, mesmo quando ela é inserida posteriormente.
 
-O projeto está em desenvolvimento inicial (versão interna `0.1.0`). A configuração Android e o notebook de compilação estão preparados; isso não equivale a um APK validado em aparelho. Consulte [a validação](docs/VALIDATION.md).
+**A versão 0.1.0 é a primeira versão funcional de desenvolvimento.** O APK debug ARM64 foi compilado no Google Colab, baixado, instalado e executado em aparelho físico com Android 16, conforme relato do autor. Criação, persistência, histórico e visualização inicial dos gráficos foram confirmados. Não é uma release estável; consulte [o escopo da validação](docs/VALIDATION.md), inclusive o que ainda precisa ser testado.
+
+Funciona offline, sem anúncios, conta, assinatura ou telemetria. Os dados ficam no dispositivo. O histórico editável e os gráficos ajudam a apresentar medições organizadas a um médico ou outro profissional de saúde. **O VitalRegistro registra e organiza dados; não realiza diagnóstico.**
 
 ## Funcionalidades
 
@@ -22,11 +24,19 @@ As validações numéricas apenas evitam erros de digitação; não classificam 
 
 ## Screenshots
 
-Esta imagem é a **referência de design**, não uma captura do aplicativo implementado. Números presentes na referência são ilustrativos.
+Capturas reais do primeiro APK em Android 16, com **dados fictícios confirmados pelo autor**. Elas documentam a versão anterior aos ajustes de transparência, áreas seguras e seletores desta revisão.
 
-![Referência visual do VitalRegistro](docs/images/apresentacao.png)
+<table>
+  <tr><th>Home</th><th>Novo Registro</th><th>Meus Registros</th><th>Gráficos</th></tr>
+  <tr>
+    <td><img src="docs/screenshots/home-android.jpg" width="180" alt="Home do primeiro APK Android"></td>
+    <td><img src="docs/screenshots/novo-registro-android.jpg" width="180" alt="Formulário de nova medição no Android"></td>
+    <td><img src="docs/screenshots/historico-android.jpg" width="180" alt="Histórico com uma medição fictícia"></td>
+    <td><img src="docs/screenshots/graficos-android.jpg" width="180" alt="Gráfico inicial com seletor de período aberto"></td>
+  </tr>
+</table>
 
-Capturas reais poderão ser adicionadas em [`docs/screenshots/`](docs/screenshots/README.md), exclusivamente com dados fictícios.
+Veja os [detalhes das capturas](docs/screenshots/README.md). A [apresentação original](docs/images/apresentacao.png) permanece como referência visual, não como screenshot.
 
 ## Tecnologias
 
@@ -62,10 +72,10 @@ requirements-build.txt      # Ferramentas de compilação Linux
 
 ## Executando localmente
 
-Substitua `SEU_USUARIO` pelo proprietário do repositório após publicá-lo:
+Clone o repositório:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/vital-registro.git
+git clone https://github.com/akioShaolin/vital-registro.git
 cd vital-registro
 ```
 
@@ -109,19 +119,21 @@ Depois de preparar as ferramentas conforme [docs/ANDROID.md](docs/ANDROID.md):
 .venv-build/bin/python scripts/build_android.py
 ```
 
-O resultado esperado fica em `bin/*.apk`. A configuração não solicita permissões de internet ou armazenamento e desativa o backup automático Android. O domínio `org.vitalregistro` é um identificador técnico inicial; não representa a posse de um domínio web.
+O primeiro resultado foi `vitalregistro-0.1.0-arm64-v8a-debug.apk` (26.009.326 bytes). Os APKs ficam em `bin/`, ignorado pelo Git. A configuração não solicita permissões de internet ou armazenamento e desativa o backup automático Android. O domínio `org.vitalregistro` é um identificador técnico inicial; não representa a posse de um domínio web.
 
 ## Google Colab
 
 Abra [`docs/build_colab.ipynb`](docs/build_colab.ipynb) no Colab. O notebook clona `https://github.com/akioShaolin/vital-registro.git`, instala ferramentas, executa testes, compila e oferece download do APK. Publique as alterações do fluxo nesse repositório antes de executar. Não contém token nem depende do Google Drive. É necessário acesso à internet **no ambiente de compilação** para baixar ferramentas e código.
 
-O notebook informa a versão real do kernel e prepara o Python de build separadamente quando ela difere de 3.14.7, sem substituir o runtime do Colab. Verifica novamente o interpretador escolhido antes de compilar. Recursos e duração da sessão podem mudar; a compilação ainda exige validação nesse ambiente. Veja a [matriz e as fontes oficiais](docs/ANDROID.md).
+O primeiro build funcional utilizou kernel Colab **Python 3.13.15**. O notebook prepara o Python de build 3.14.7 separadamente, sem substituir esse kernel. A combinação foi preservada nesta revisão; novos APKs com as correções de interface precisam ser testados novamente. Veja a [matriz e as fontes oficiais](docs/ANDROID.md).
 
 ## Armazenamento dos dados
 
 O arquivo `vitalregistro.sqlite3` fica no diretório retornado por `App.user_data_dir`, fora do código. No Windows, normalmente `%APPDATA%\vitalregistro`; no Linux, `~/.config/vitalregistro`; no Android, no armazenamento privado do aplicativo. O nome exato da pasta Android depende do pacote instalado.
 
 O banco pessoal **não faz parte do repositório**. As gravações são transacionais e registros têm ID único. Uma falha de leitura não provoca recriação destrutiva do banco. Desinstalar o aplicativo ou limpar seus dados pode remover o histórico: exporte antes se quiser preservá-lo. O SQLite não é criptografado pelo aplicativo.
+
+**Armazenamento exclusivamente local:** não há conta online, sincronização ou backup em nuvem. Perder ou danificar o aparelho, formatá-lo ou remover o aplicativo com seus dados pode resultar na perda do histórico. A exportação CSV é o mecanismo disponível para manter uma cópia externa; guarde essa cópia fora do aparelho se quiser protegê-la também contra perda do dispositivo. Não há restauração/importação automática nesta versão.
 
 ## Exportação
 
@@ -131,6 +143,8 @@ Use **Exportar Dados** na tela inicial. O CSV inclui todos os registros em ordem
 - **Android:** abre o seletor de documentos do sistema para escolher nome e destino; cancelar não altera o banco. Escolha armazenamento local se quiser manter o arquivo no aparelho. Provedores de nuvem instalados podem aparecer no seletor, e só serão usados se você os escolher explicitamente.
 
 As observações são preservadas literalmente. Ao abrir CSV em planilhas, importe a coluna de observações como texto, especialmente se contiver expressões começando com `=`, `+`, `-` ou `@`. O aplicativo não importa CSV nesta versão.
+
+A geração CSV foi testada automaticamente, e os fluxos do adaptador Android foram testados com simulações. **Salvar, cancelar e repetir exportações pelo seletor em aparelho físico continuam pendentes de validação.**
 
 ## Privacidade
 
@@ -142,11 +156,15 @@ As observações são preservadas literalmente. Ao abrir CSV em planilhas, impor
 
 ## Limitações conhecidas
 
-- APK, seletor Android, teclado e ciclo de vida precisam ser testados em aparelho.
+- O primeiro APK já executou em Android 16; edição/exclusão, exportação, teclado, retomada e os ajustes desta revisão ainda precisam de teste em aparelho.
 - Sem intervalo personalizado de gráficos, importação, sincronização ou criptografia própria.
 - Gráficos mostram todas as medições do período; históricos grandes podem ficar densos. A lista limita widgets por lote, mas lê o histórico completo do banco.
 - Formulário não salvo pode se perder se o sistema encerrar o processo; registros já salvos permanecem no SQLite.
 - APK debug é para instalação e testes; publicação na Play Store exige assinatura e revisão dos requisitos vigentes.
+
+## Possibilidades para 0.2.0
+
+Ideias, não funcionalidades concluídas: importação CSV com prévia e confirmação, intervalo personalizado nos gráficos e melhorias de acessibilidade baseadas em testes de uso. Sincronização ou backup em nuvem exigiriam uma decisão futura explícita sobre privacidade; não fazem parte da versão atual.
 
 ## Aviso
 

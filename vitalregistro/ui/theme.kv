@@ -47,3 +47,24 @@
     background_active: ''
     background_color: 1, 1, 1, 1
     cursor_color: 0.06, 0.38, 0.73, 1
+
+<ChoiceSpinner>:
+    background_normal: ''
+    background_down: ''
+    background_color: .87, .93, .98, 1
+    color: .06, .15, .29, 1
+    font_size: '16sp'
+    text_size: self.width - dp(20), self.height
+    halign: 'center'
+    valign: 'middle'
+
+<ChoiceOption>:
+    background_normal: ''
+    background_down: ''
+    background_color: (.78, .87, .96, 1) if self.state == 'down' else (.94, .97, 1, 1)
+    color: .06, .15, .29, 1
+    font_size: '16sp'
+    height: dp(52)
+    text_size: self.width - dp(20), self.height
+    halign: 'center'
+    valign: 'middle'

@@ -17,7 +17,11 @@ class AndroidExporter:
         if self.pending is not None:
             raise RuntimeError("Uma exportação já está em andamento.")
         self.pending = (text, callback)
-        activity.bind(on_activity_result=self._result)
+        try:
+            activity.bind(on_activity_result=self._result)
+        except Exception as exc:
+            self.pending = None
+            raise RuntimeError("Não foi possível iniciar a exportação. Tente novamente.") from exc
 
         @run_on_ui_thread
         def launch():

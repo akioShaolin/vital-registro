@@ -1,6 +1,6 @@
 # Publicar em vital-registro
 
-O projeto foi preparado localmente; nenhum remoto é presumido. Não há push automático nem release de APK. O autor da licença foi obtido de `git config user.name`: Pedro Sakuma (2026).
+O repositório do projeto é `https://github.com/akioShaolin/vital-registro.git`. A versão 0.1.0 já teve APK debug ARM64 compilado no Colab e uso básico confirmado em Android 16 pelo autor. Esta revisão não faz push nem cria release automaticamente. O autor da licença é Pedro Sakuma (2026).
 
 ## Revisar antes do commit
 
@@ -21,12 +21,14 @@ git diff --cached
 No Windows, use `py -3.13` ou o Python do ambiente virtual. Confira a lista antes de continuar: não deve conter banco de dados, CSV pessoal, `.env`, tokens, arquivos de assinatura, `.venv`, `.buildozer`, APK ou logs. Imagens devem mostrar somente a identidade visual ou dados fictícios. O `.gitignore` não remove arquivos já rastreados; inspecione `git ls-files` caso esteja reaproveitando um histórico.
 
 ```bash
-git commit -m "Initial project structure"
+git commit -m "Polish 0.1.0 after first Android build"
 ```
 
-A mensagem reflete o estágio inicial com validação Android pendente. Não foi criada uma release.
+A mensagem descreve as correções após o primeiro build funcional. Os ajustes novos ainda precisam de teste no aparelho. Não trate o APK debug como release estável. Caso decida distribuir o APK, use GitHub Releases com indicação explícita de desenvolvimento, fora do histórico normal do código.
 
-## Criar o remoto
+## Enviar ao remoto existente ou preparar outro clone
+
+Para o projeto existente, confira `git remote -v` e `git status` antes de `git push`. As instruções de criação abaixo são somente para quem ainda não tem remoto; não recrie `vital-registro` se ele já existe.
 
 Opção com GitHub CLI instalada e autenticada:
 

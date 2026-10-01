@@ -3,6 +3,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.metrics import dp
@@ -10,7 +11,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
-from kivy.uix.spinner import Spinner
 from kivy.utils import platform
 
 from .database import Repository, RepositoryError
@@ -18,7 +18,7 @@ from .export import csv_text, save_csv
 from .models import Measurement, ValidationError
 from .periods import period_bounds
 from .ui.chart import HistoryChart
-from .ui.widgets import BodyLabel, Field, button, column, dialog, date_picker, time_picker
+from .ui.widgets import BodyLabel, Field, ChoiceSpinner, button, column, dialog, date_picker, time_picker
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -33,11 +33,15 @@ class VitalRegistroApp(App):
         self.edit_id = None
         self.original_fields = None
         self.exporter = None
+        self.android_insets = None
+        self.scrolls = {}
 
     def build(self):
         Builder.load_file(str(ROOT / "vitalregistro" / "ui" / "theme.kv"))
         Window.clearcolor = (.95, .97, 1, 1)
-        Window.softinput_mode = "below_target"
+        # Android IME overlap is handled by the safe viewport, without panning
+        # the whole interface a second time. Desktop keeps Kivy's behavior.
+        Window.softinput_mode = "" if platform == "android" else "below_target"
         if platform != "android":
             Window.size = (420, 800)
         self.storage_dir = Path(self.data_dir_override or self.user_data_dir)
@@ -55,7 +59,33 @@ class VitalRegistroApp(App):
         self.build_charts()
         self.manager.current = "home"
         Window.bind(on_keyboard=self.on_keyboard)
-        return self.manager
+        self.viewport = BoxLayout()
+        self.viewport.add_widget(self.manager)
+        if platform == "android":
+            from .ui.android_insets import AndroidInsets
+            self.viewport.padding = [0, dp(24), 0, dp(48)]
+            self.android_insets = AndroidInsets(self.apply_insets)
+        return self.viewport
+
+    def on_start(self):
+        if self.android_insets:
+            self.android_insets.start()
+
+    def apply_insets(self, padding):
+        if list(self.viewport.padding) != list(padding):
+            self.viewport.padding = padding
+            Clock.schedule_once(self.reveal_focused_field, .05)
+
+    def reveal_focused_field(self, *_):
+        if self.manager.current == "form":
+            for field in self.fields.values():
+                if field.focus:
+                    self.scrolls["form"].scroll_to(field, padding=dp(24), animate=False)
+                    break
+
+    def focus_field(self, field, focused):
+        if focused:
+            Clock.schedule_once(self.reveal_focused_field, .3)
 
     def page(self, name, title):
         screen = Screen(name=name)
@@ -70,7 +100,9 @@ class VitalRegistroApp(App):
         header.add_widget(label)
         outer.add_widget(header)
         scroll = ScrollView(do_scroll_x=False)
+        self.scrolls[name] = scroll
         content = column()
+        content.padding = [0, 0, 0, dp(24)]
         scroll.add_widget(content)
         outer.add_widget(scroll)
         screen.add_widget(outer)
@@ -104,6 +136,7 @@ class VitalRegistroApp(App):
                            ("pulse", "Pulso · bpm"), ("weight", "Peso · kg"), ("note", "Observação (opcional)")):
             content.add_widget(BodyLabel(text=label))
             field = Field()
+            field.bind(focus=self.focus_field)
             if key == "note":
                 field.multiline = True
                 field.height = dp(110)
@@ -128,6 +161,7 @@ class VitalRegistroApp(App):
             field.text = ""
         self.original_fields = self.form_snapshot()
         self.manager.current = "form"
+        self.scrolls["form"].scroll_y = 1
 
     def pick_day(self):
         current = datetime.strptime(self.day_button.text, "%d/%m/%Y").date()
@@ -223,6 +257,7 @@ class VitalRegistroApp(App):
             field.text = str(getattr(record, key))
         self.original_fields = self.form_snapshot()
         self.manager.current = "form"
+        self.scrolls["form"].scroll_y = 1
 
     def delete_record(self, record_id):
         try:
@@ -234,8 +269,8 @@ class VitalRegistroApp(App):
 
     def build_charts(self):
         content, _ = self.page("charts", "Gráficos")
-        self.metric = Spinner(text="Pressão", values=("Pressão", "Pulso", "Peso"), size_hint_y=None, height=dp(48))
-        self.period = Spinner(text="Últimos 7 dias", values=("Últimos 7 dias", "Últimos 30 dias", "Todos os registros"),
+        self.metric = ChoiceSpinner(text="Pressão", values=("Pressão", "Pulso", "Peso"), size_hint_y=None, height=dp(48))
+        self.period = ChoiceSpinner(text="Últimos 7 dias", values=("Últimos 7 dias", "Últimos 30 dias", "Todos os registros"),
                               size_hint_y=None, height=dp(48))
         content.add_widget(self.metric)
         content.add_widget(self.period)
@@ -269,7 +304,8 @@ class VitalRegistroApp(App):
             series = [("weight", (.08, .42, .8, 1))]
             self.legend.text = "Peso · kg"
         self.chart.set_data(records, series)
-        self.chart_count.text = f"{len(records)} registro(s). As linhas apenas conectam medições."
+        self.chart_count.text = ("1 registro. Cada ponto representa uma medição." if len(records) == 1
+                                else f"{len(records)} registro(s). As linhas apenas conectam medições.")
 
     def export_records(self):
         try:
@@ -328,7 +364,15 @@ class VitalRegistroApp(App):
         return False
 
     def on_pause(self):
+        if self.android_insets:
+            self.android_insets.stop()
         return True
 
+    def on_resume(self):
+        if self.android_insets:
+            self.android_insets.start()
+
     def on_stop(self):
+        if self.android_insets:
+            self.android_insets.stop()
         Window.unbind(on_keyboard=self.on_keyboard)

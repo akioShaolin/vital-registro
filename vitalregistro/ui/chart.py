@@ -32,19 +32,26 @@ class HistoryChart(Widget):
             if not self.records:
                 self.label("Sem registros neste período.", self.x + dp(12), self.center_y)
                 return
-            left, bottom = self.x + dp(44), self.y + dp(40)
-            width, height = max(1, self.width - dp(62)), max(1, self.height - dp(65))
             values = [float(getattr(r, field)) for field, _ in self.series for r in self.records]
             low, high = min(values), max(values)
             margin = max((high - low) * .15, 1)
-            low, high = low - margin, high + margin
+            low, high = max(0, low - margin), high + margin
+            ticks = [f"{low + (high - low) * i / 4:.1f}" for i in range(5)]
+            # Measure axis labels instead of assuming a fixed 44dp gutter.
+            label_width = 0
+            for text in ticks:
+                label = CoreLabel(text=text, font_size=dp(11))
+                label.refresh()
+                label_width = max(label_width, label.texture.width)
+            left, bottom = self.x + label_width + dp(12), self.y + dp(40)
+            width, height = max(1, self.right - left - dp(16)), max(1, self.height - dp(65))
             first, last = self.records[0].measured_at, self.records[-1].measured_at
             seconds = (last - first).total_seconds()
             for i in range(5):
                 y = bottom + height * i / 4
                 Color(.82, .87, .92, 1)
                 Line(points=[left, y, left + width, y], width=1)
-                self.label(f"{low + (high - low) * i / 4:.1f}", self.x, y - dp(5))
+                self.label(ticks[i], left - dp(8), y - dp(5), "right")
             self.label(first.strftime("%d/%m/%y"), left, self.y + dp(12))
             if seconds:
                 self.label(last.strftime("%d/%m/%y"), left + width, self.y + dp(12), "right")
