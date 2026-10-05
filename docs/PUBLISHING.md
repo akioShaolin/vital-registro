@@ -1,5 +1,7 @@
 # Publicar em vital-registro
 
+A v0.1.0 já foi publicada, conforme informado pelo autor. A implementação atual prepara v0.2.0 para revisão e não executa commit, tag, push ou release. Os dados de v0.1.0 abaixo são históricos; uma distribuição v0.2.0 exige novo APK, novo build-info e validação Android.
+
 O repositório do projeto é `https://github.com/akioShaolin/vital-registro.git`. A versão 0.1.0 já teve APK debug ARM64 compilado no Colab e uso básico confirmado no Samsung Galaxy M55 com Android 16 pelo autor. Esta revisão não faz push nem cria release automaticamente. O autor da licença é Pedro Sakuma (2026).
 
 ## Revisar antes do commit
@@ -21,10 +23,10 @@ git diff --cached
 No Windows, use `py -3.13` ou o Python do ambiente virtual. Confira a lista antes de continuar: não deve conter banco de dados, CSV pessoal, `.env`, tokens, arquivos de assinatura, `.venv`, `.buildozer`, APK ou logs. Imagens devem mostrar somente a identidade visual ou dados fictícios. O `.gitignore` não remove arquivos já rastreados; inspecione `git ls-files` caso esteja reaproveitando um histórico.
 
 ```bash
-git commit -m "Document v0.1.0 build and hardware validation"
+git commit -m "Prepare v0.2.0 independent measurements and CSV import"
 ```
 
-A mensagem descreve o fechamento documental do primeiro marco funcional. As validações de hardware restantes estão em [VALIDATION.md](VALIDATION.md). Não trate o APK debug como release estável. Caso decida distribuir o APK, use GitHub Releases com indicação explícita de desenvolvimento, fora do histórico normal do código.
+A mensagem é uma sugestão para a revisão v0.2.0 após aprovação do autor. As validações de hardware restantes estão em [VALIDATION.md](VALIDATION.md). Não trate o APK debug como release estável. Caso decida distribuir o APK, use GitHub Releases com indicação explícita de desenvolvimento, fora do histórico normal do código.
 
 ## Enviar ao remoto existente ou preparar outro clone
 
@@ -50,9 +52,9 @@ git push -u origin HEAD
 
 Se o remoto já tiver commits, busque e examine o histórico antes de integrar. Não use force push. Se publicar em outro remoto, ajuste o URL de clone no README e no notebook. No repositório do projeto, o URL já está configurado. Confirme a execução de `.github/workflows/tests.yml` na aba Actions.
 
-## Futura GitHub Release v0.1.0
+## Planejamento histórico da GitHub Release v0.1.0
 
-Preparação documental apenas: nenhuma tag ou release foi criada nesta tarefa.
+O roteiro abaixo foi registrado antes da publicação da v0.1.0 e permanece como referência do artefato histórico, não como instrução para republicá-lo.
 
 - Tag planejada: `v0.1.0`.
 - Título planejado: **VitalRegistro v0.1.0**.

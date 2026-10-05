@@ -18,8 +18,8 @@ from vitalregistro.periods import period_bounds
 
 
 def fictional_record(day="15/04/2025", clock="08:30", **kwargs):
-    return Measurement.from_fields(day, clock, "120", "80", "72", "70,50",
-                                   kwargs.get("note", "EXEMPLO FICTÍCIO"))
+    return Measurement.from_fields(day, clock, "pressao", systolic="120", diastolic="80", pulse="72",
+                                   note=kwargs.get("note", "EXEMPLO FICTÍCIO"))
 
 
 class RepositoryTests(unittest.TestCase):
@@ -37,8 +37,8 @@ class RepositoryTests(unittest.TestCase):
     def test_edit_every_field_and_reorder(self):
         record_id = self.repo.create(fictional_record())
         other_id = self.repo.create(fictional_record("16/04/2025"))
-        updated = Measurement.from_fields("01/01/2026", "23:59", "125", "82", "75", "71.25",
-                                          'FICTÍCIO: edição, "aspas"\nsegunda linha', record_id)
+        updated = Measurement.from_fields("01/01/2026", "23:59", "pressao", systolic="125", diastolic="82", pulse="75",
+                                          note='FICTÍCIO: edição, "aspas"\nsegunda linha', record_id=record_id)
         self.repo.update(updated)
         self.assertEqual(self.repo.get(record_id), updated)
         self.assertEqual([r.id for r in self.repo.list()], [record_id, other_id])
@@ -55,8 +55,8 @@ class RepositoryTests(unittest.TestCase):
     def test_chronology_across_years_and_same_minute(self):
         dates = [("01/01/2026", "00:01"), ("31/12/2025", "23:59"), ("01/01/2026", "00:01")]
         ids = [self.repo.create(fictional_record(*pair)) for pair in dates]
-        self.assertEqual([r.id for r in self.repo.list()], [ids[2], ids[0], ids[1]])
-        self.assertEqual([r.id for r in self.repo.list(newest_first=False)], [ids[1], ids[0], ids[2]])
+        self.assertEqual([r.id for r in self.repo.list()], sorted([ids[0], ids[2]], reverse=True) + [ids[1]])
+        self.assertEqual([r.id for r in self.repo.list(newest_first=False)], [ids[1]] + sorted([ids[0], ids[2]]))
 
     def test_inclusive_date_filter(self):
         for day, hour in (("01/01/2026", "00:00"), ("07/01/2026", "23:59"), ("08/01/2026", "00:00")):
@@ -90,7 +90,8 @@ class ValidationTests(unittest.TestCase):
     def test_historical_leap_day_and_decimal_comma(self):
         record = fictional_record("29/02/2024", "00:00")
         self.assertEqual(record.measured_at, datetime(2024, 2, 29))
-        self.assertEqual(record.weight, Decimal("70.50"))
+        weight = Measurement.from_fields("29/02/2024", "00:00", "peso", weight="70,50")
+        self.assertEqual(weight.weight, Decimal("70.50"))
 
     def test_invalid_dates_and_times(self):
         for day, hour in (("29/02/2025", "12:00"), ("31/04/2025", "12:00"), ("01/01/2025", "24:00")):
@@ -100,7 +101,7 @@ class ValidationTests(unittest.TestCase):
     def test_invalid_numbers(self):
         for weight in ("NaN", "Infinity", "-1", "0", "701", "abc", "1,2,3"):
             with self.subTest(weight=weight), self.assertRaises(ValidationError):
-                Measurement.from_fields("01/01/2025", "10:00", "120", "80", "72", weight)
+                Measurement.from_fields("01/01/2025", "10:00", "peso", weight=weight)
         for field in ("systolic", "diastolic", "pulse"):
             for value in (0, -1, 9999, 12.5, True):
                 with self.subTest(field=field, value=value), self.assertRaises(ValidationError):
@@ -121,7 +122,7 @@ class ExportTests(unittest.TestCase):
         note = 'FICTÍCIO: ação, "aspas"\nlinha dois\r\nterceira; =texto'
         rows = list(csv.reader(io.StringIO(csv_text([fictional_record(note=note)]), newline="")))
         self.assertEqual(rows[0], list(HEADER))
-        self.assertEqual(rows[1], ["15/04/2025", "08:30", "120", "80", "72", "70.50", note])
+        self.assertEqual(rows[1][2:], ["pressao", "2025-04-15T08:30", "120", "80", "72", "", "", "", note])
 
     def test_utf8_and_no_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -1,5 +1,7 @@
 # Compilação Android e Google Colab
 
+A revisão atual prepara **v0.2.0**. Somente a versão do aplicativo mudou no spec; a cadeia abaixo permanece fixa. As evidências do APK v0.1.0 são históricas e não validam v0.2.0. Novo banco e CSV incompatíveis com v0.1.0: veja [CSV.md](CSV.md).
+
 ## Por que o fluxo mudou
 
 O notebook anterior exigia Python 3.10–3.12 e combinava p4a `master`, API 35 e NDK 25b. Ele interrompia no Python 3.13 do Colab antes de instalar as ferramentas. Remover essa restrição não atualizaria as recipes, o compilador nativo nem as dependências Python.
@@ -14,7 +16,7 @@ O fluxo novo separa três interpretadores:
 
 ## Combinação selecionada
 
-Esta é a configuração preservada do build bem-sucedido documentado para a v0.1.0. Nenhuma versão de Python, Buildozer, p4a, Kivy, SDK, NDK ou Java foi trocada neste fechamento documental.
+Esta é a configuração preservada do build bem-sucedido documentado para a v0.1.0. Nenhuma versão de Python, Buildozer, p4a, Kivy, SDK, NDK ou Java foi trocada na implementação v0.2.0.
 
 | Componente | Seleção e função |
 | --- | --- |
@@ -53,7 +55,7 @@ O autor confirmou instalação e inicialização no **Samsung Galaxy M55 com And
 
 As [capturas históricas](screenshots/README.md) antecedem as correções visuais incluídas no commit identificado. Não devem ser usadas para afirmar que transparência, áreas seguras, teclado ou exportação foram testados no artefato de 26.306.986 bytes. Consulte [VALIDATION.md](VALIDATION.md) para o escopo confirmado.
 
-Guarde `build-info.json` junto ao APK: ambos deverão acompanhar a futura GitHub Release **VitalRegistro v0.1.0**, tag planejada `v0.1.0`. Esta tarefa apenas prepara a documentação; não cria tag, release ou commit de APK.
+A v0.1.0 já foi publicada, conforme informado pelo autor. Preserve o JSON junto ao artefato correspondente. Para a v0.2.0, gere novos metadados no build; não reutilize hashes ou evidências da v0.1.0. Nenhuma publicação é feita nesta implementação.
 
 A [documentação atual do Buildozer](https://buildozer.readthedocs.io/en/latest/installation/) indica o fluxo moderno com Python 3.14, p4a develop, API 36 e NDK 29, mantendo Java 17. Fixamos commits para evitar mudanças silenciosas nas branches.
 
@@ -105,12 +107,23 @@ Os commits principais e várias dependências são fixos, mas pacotes apt, Rust 
 
 ## Exportação e privacidade Android
 
-O aplicativo permanece offline. `android.permissions` continua vazio, `android.allow_backup = False` e o seletor CSV usa `ACTION_CREATE_DOCUMENT`. Não adicionamos internet nem permissões amplas de armazenamento. A rede é necessária somente para obter as ferramentas e dependências **durante o build**.
+O aplicativo permanece offline. `android.permissions` continua vazio, `android.allow_backup = False` e o seletor CSV usa `ACTION_CREATE_DOCUMENT` para exportar e `ACTION_OPEN_DOCUMENT` para importar. Não adicionamos internet nem permissões amplas de armazenamento. A rede é necessária somente para obter as ferramentas e dependências **durante o build**.
 
 ## Validação e limites
 
 Testes de lógica e seleção de ambiente podem ser executados localmente sem SDK. Os testes da preparação usam subprocessos simulados para verificar a escolha do Python e a propagação de falhas; não provam compilação nativa.
 
-**O build Colab e o uso básico no Samsung Galaxy M55 com Android 16 foram confirmados pelo autor.** Nesta revisão exclusivamente documental, não foi executado build nem repetida a validação funcional. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
+**O build Colab e o uso básico no Samsung Galaxy M55 com Android 16 foram confirmados pelo autor.** Essa evidência refere-se à v0.1.0. Na implementação v0.2.0, não foi executado build APK nem teste em hardware. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
 
 Na próxima rodada de testes em aparelho, confira o ícone do launcher, margens de status/navegação, formulário e teclado, edição/exclusão, todos os gráficos/períodos, exportação/cancelamento e suspensão/retomada. A exportação SAF está implementada e revisada, mas ainda não foi confirmada em aparelho. Publicação na Play Store continua fora deste fluxo debug.
+
+## Checklist Android v0.2.0
+
+- Conferir instalação/upgrade e aviso do banco antigo preservado, com histórico v2 separado.
+- Criar, editar e excluir os três tipos, incluindo vírgula decimal e contextos de glicemia.
+- Rolar dia/mês/ano, ano bissexto e hora/minuto; confirmar/cancelar sem abrir teclado.
+- Tocar pontos próximos e sobrepostos de ambas as séries de pressão, pulso, peso e glicemia; conferir data/hora, tolerância e fechamento do rótulo.
+- Exportar e importar pelo SAF, cancelar e repetir; verificar UTF-8/multilinha, round-trip, duplicatas e conflitos sem sobrescrita.
+- Conferir insets, teclado, navegação por gestos/botões, suspensão/retomada e encerramento durante o seletor.
+
+O seletor SAF pode perder uma operação pendente se o Android encerrar o processo. Se isso ocorrer, selecione o arquivo novamente; a prévia não grava e os UUIDs protegem contra reimportação idêntica.

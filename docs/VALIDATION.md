@@ -1,4 +1,32 @@
-# Validação — v0.1.0
+# Validação — v0.2.0 em preparação
+
+A v0.1.0 é o marco já publicado informado pelo autor. Sua evidência histórica está preservada abaixo. Não foi compilado APK v0.2.0 nem executado teste em hardware Android nesta implementação.
+
+## Verificação local da v0.2.0
+
+Verificações em **05/10/2026**, no Windows, Python **3.13.3** e Kivy **2.3.1**:
+
+| Verificação | Resultado |
+| --- | --- |
+| `python -m unittest discover -s tests -v` | 66 testes aprovados |
+| `python -m compileall -q main.py vitalregistro scripts tests` | Aprovada |
+| `python scripts/check_repository.py` | PASS; sintaxe do notebook, ícone e permissões preservadas |
+| `python scripts/smoke_ui.py --screenshot` | PASS; CRUD dos três tipos, filtros, gráficos/toque simulado, round-trip e wheels |
+| `git diff --check` | Sem erros |
+
+O smoke inclui arraste simulado de um wheel, ano bissexto, mudança de mês/ano e limites 00:00/23:59. As capturas desktop dos wheels e do tooltip foram inspecionadas; ficam em `runtime/`, ignorado pelo Git. As versões 3.12 e 3.14 da matriz CI não foram executadas nesta rodada local.
+
+A suíte cobre três tipos, edição/exclusão, ordem cronológica, horários distintos no mesmo dia, round-trip com valores/UUIDs/contextos/observações, UTF-8, duplicatas e conflitos, CSV inválido, rollback, banco antigo preservado, lógica dos wheels e hit-testing de pontos próximos/sobrepostos e séries distintas. SAF é exercitado com mocks, incluindo leitura/escrita, cancelamento, repetição, limites, fechamento de streams e falhas.
+
+O smoke usa somente dados fictícios temporários. Exercita formulários específicos, CRUD, filtros, métricas/períodos, exportação repetida, prévia/confirmar e round-trip, renderização dos wheels, encaixe e mudança de mês/ano, além de toque simulado no gráfico dentro do ScrollView. Isso não comprova ergonomia de touchscreen nem integração real do SAF.
+
+## Pendências Android v0.2.0
+
+Todo o [checklist Android](ANDROID.md#checklist-android-v020) está pendente, especialmente Samsung Galaxy M55, gestos dos wheels, tooltips, teclado/insets, preservação do arquivo antigo e round-trip pelo SAF. Também falta nova compilação APK e inspeção do manifesto final. Não há alegação de interpretação clínica ou diagnóstico.
+
+---
+
+## Histórico preservado — v0.1.0
 
 ## Evidência em aparelho fornecida pelo autor
 

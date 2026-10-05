@@ -2,6 +2,30 @@
 
 Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.0 é de desenvolvimento, não estável ou produção.
 
+## [Unreleased]
+
+Preparação da **v0.2.0**, sem commit/tag/release criados por esta implementação. A seção histórica v0.1.0 abaixo foi preservada.
+
+### Added
+
+- Medições independentes de pressão arterial/pulso, peso e glicemia em mg/dL, com timestamps próprios e contextos de glicemia.
+- Escolha de tipo, formulários específicos e histórico geral filtrável, com edição e exclusão por registro.
+- Gráfico de glicemia e seleção por toque/clique dos pontos de todas as métricas, com tolerância e identificação da série; escolha explícita em sobreposições exatas.
+- Seletores rolantes reutilizáveis de dia/mês/ano e hora/minuto, sem teclado, com encaixe e correção de dias por mês/ano bissexto.
+- CSV formato 2 com UUID persistente, timestamp ISO local e importação via prévia/confirmar; SAF no Android e seletor desktop.
+- Detecção de duplicatas idênticas e conflitos de UUID, validação integral antes de gravar e transação com rollback.
+- Testes de round-trip, novos tipos, UUID/conflitos, falhas de importação, pickers, seleção de pontos e SAF simulado; smoke desktop ampliado.
+
+### Changed
+
+- Novo schema 2 em `vitalregistro-v2.sqlite3`; banco antigo preservado com aviso, sem migração nem importação de CSV v0.1.0.
+- Versão do aplicativo e do pacote Android preparada como 0.2.0. Dependências, SDK/NDK/Java/p4a, permissões e insets preservados.
+- Documentação do [CSV e schema](docs/CSV.md), recursos novos e limites de validação.
+
+### Validation
+
+Testes locais e smoke são registrados em [VALIDATION.md](docs/VALIDATION.md). Nenhum build APK v0.2.0 ou teste em hardware Android foi executado nesta implementação.
+
 ## [0.1.0] - 2026-09-30
 
 ### Fixed

@@ -3,7 +3,9 @@
 import csv
 import io
 
-HEADER = ("data", "hora", "sistolica", "diastolica", "pulso", "peso", "observacao")
+FORMAT_VERSION = "2"
+HEADER = ("formato", "id", "tipo", "timestamp", "sistolica", "diastolica", "pulso",
+          "peso", "glicemia", "contexto", "observacao")
 
 
 def csv_text(records):
@@ -11,8 +13,10 @@ def csv_text(records):
     writer = csv.writer(output)
     writer.writerow(HEADER)
     for row in records:
-        writer.writerow((row.measured_at.strftime("%d/%m/%Y"), row.measured_at.strftime("%H:%M"),
-                         row.systolic, row.diastolic, row.pulse, str(row.weight), row.note))
+        writer.writerow((FORMAT_VERSION, row.id, row.kind, row.measured_at.isoformat(timespec="minutes"),
+                         row.systolic, row.diastolic, row.pulse,
+                         format(row.weight, "f") if row.weight is not None else None,
+                         row.glucose, row.context, row.note))
     return output.getvalue()
 
 

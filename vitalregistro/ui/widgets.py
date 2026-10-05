@@ -1,12 +1,8 @@
-import calendar
-from datetime import date
-
 from kivy.properties import BooleanProperty
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.spinner import Spinner, SpinnerOption
 from kivy.metrics import dp
@@ -64,62 +60,26 @@ def dialog(title, content, height=340):
     return popup
 
 
-def date_picker(value, callback):
-    selected = [value.year, value.month]
+def _wheel_dialog(title, wheel, callback):
+    from kivy.core.window import Window
     content = BoxLayout(orientation="vertical", spacing=dp(8))
-    controls = BoxLayout(size_hint_y=None, height=dp(48), spacing=dp(6))
-    month = Spinner(text=str(value.month), values=tuple(str(m) for m in range(1, 13)))
-    year = Field(text=str(value.year), input_filter="int", input_type="number", size_hint_x=.9)
-    controls.add_widget(month)
-    controls.add_widget(year)
-    content.add_widget(BodyLabel(text="Mês e ano · toque no dia"))
-    content.add_widget(controls)
-    grid = GridLayout(cols=7, spacing=dp(3))
-    content.add_widget(grid)
-    popup = dialog("Data da medição", content, 440)
-
-    def choose(day):
-        callback(date(selected[0], selected[1], day))
-        popup.dismiss()
-
-    def render(*_):
-        grid.clear_widgets()
-        try:
-            y, m = int(year.text), int(month.text)
-            if not 1 <= y <= 9999:
-                return
-        except ValueError:
-            return
-        selected[:] = [y, m]
-        for title in ("S", "T", "Q", "Q", "S", "S", "D"):
-            grid.add_widget(BodyLabel(text=title, halign="center"))
-        for week in calendar.monthcalendar(y, m):
-            for day in week:
-                if day:
-                    item = button(str(day), lambda day=day: choose(day), day == value.day)
-                    item.size_hint_y = 1
-                    grid.add_widget(item)
-                else:
-                    grid.add_widget(Label())
-    month.bind(text=render)
-    year.bind(text=render)
-    content.add_widget(button("Cancelar", popup.dismiss))
-    render()
-
-
-def time_picker(value, callback):
-    content = BoxLayout(orientation="vertical", spacing=dp(12))
-    content.add_widget(BodyLabel(text="Hora e minuto"))
-    row = BoxLayout(spacing=dp(12))
-    hour = Spinner(text=value.strftime("%H"), values=tuple(f"{i:02}" for i in range(24)))
-    minute = Spinner(text=value.strftime("%M"), values=tuple(f"{i:02}" for i in range(60)))
-    row.add_widget(hour)
-    row.add_widget(minute)
-    content.add_widget(row)
-    popup = dialog("Horário da medição", content, 290)
+    content.add_widget(BodyLabel(text="Role as colunas. O valor central fica destacado.", font_size="14sp"))
+    content.add_widget(wheel)
+    popup = dialog(title, content, min(460, Window.height / dp(1) * .88))
 
     def confirm():
-        callback(f"{hour.text}:{minute.text}")
+        callback(wheel.value())
         popup.dismiss()
     content.add_widget(button("Confirmar", confirm, True))
     content.add_widget(button("Cancelar", popup.dismiss))
+    return popup
+
+
+def date_picker(value, callback):
+    from .wheels import DateWheelPicker
+    return _wheel_dialog("Data da medição", DateWheelPicker(value), callback)
+
+
+def time_picker(value, callback):
+    from .wheels import TimeWheelPicker
+    return _wheel_dialog("Horário da medição", TimeWheelPicker(value), callback)

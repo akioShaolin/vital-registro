@@ -6,7 +6,7 @@ source.dir = .
 source.include_exts = py,kv,png
 source.exclude_dirs = tests,scripts,docs,.venv,.venv-build,.build-tools,venv,runtime,exports,bin,build,dist,.github
 source.exclude_patterns = apresentacao.png,icone.png,**/__pycache__/*
-version = 0.1.0
+version = 0.2.0
 # Match the Python/hostpython recipes at the pinned p4a revision.
 requirements = python3==3.14.2,hostpython3==3.14.2,kivy==2.3.1,sqlite3,pyjnius==1.7.0
 icon.filename = %(source.dir)s/assets/icons/icone.png
