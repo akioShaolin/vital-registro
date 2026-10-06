@@ -1,0 +1,35 @@
+{
+  "kernel_python": "3.13.16",
+  "build_python": "Python 3.14.7",
+  "project_commit": "0835bab79306bbf44bf21954dff897d4f936a562",
+  "p4a_commit": "e772ad93f20a61c0bbe1cf8955e073cfb41062e1",
+  "build_packages": [
+    "appdirs==1.4.4",
+    "build==1.6.1",
+    "buildozer @ git+https://github.com/kivy/buildozer.git@a153097b3c534bea8a17da2abf1369d67c8cbfcb",
+    "colorama==0.4.6",
+    "Cython==3.3.0",
+    "Jinja2==3.1.6",
+    "legacy-cgi==2.6.4",
+    "MarkupSafe==3.0.4",
+    "meson==1.12.1",
+    "ninja==1.13.2",
+    "packaging==26.3",
+    "pexpect==4.9.0",
+    "ptyprocess==0.7.0",
+    "pyproject_hooks==1.3.3",
+    "setuptools==84.0.0",
+    "sh==2.4.0",
+    "toml==0.10.2",
+    "wheel==0.43.0"
+  ],
+  "android_api": "36",
+  "android_ndk": "29",
+  "artifacts": [
+    {
+      "name": "vitalregistro-0.2.0-arm64-v8a-debug.apk",
+      "bytes": 26326438,
+      "sha256": "ce8a592d5485ae328335a7e03aa9a566356fd6cf65fdbbee8410377e1158a202"
+    }
+  ]
+}

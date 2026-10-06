@@ -1,6 +1,6 @@
 # Validação — v0.2.0 em preparação
 
-A v0.1.0 é o marco já publicado informado pelo autor. Sua evidência histórica está preservada abaixo. Não foi compilado APK v0.2.0 nem executado teste em hardware Android nesta implementação.
+A v0.1.0 é o marco já publicado informado pelo autor. Sua evidência histórica está preservada abaixo. O autor forneceu metadados de um build v0.2.0 e capturas Android. Nesta revisão documental não foi executado build, inspecionado o APK ou realizado teste em aparelho.
 
 ## Verificação local da v0.2.0
 
@@ -20,9 +20,19 @@ A suíte cobre três tipos, edição/exclusão, ordem cronológica, horários di
 
 O smoke usa somente dados fictícios temporários. Exercita formulários específicos, CRUD, filtros, métricas/períodos, exportação repetida, prévia/confirmar e round-trip, renderização dos wheels, encaixe e mudança de mês/ano, além de toque simulado no gráfico dentro do ScrollView. Isso não comprova ergonomia de touchscreen nem integração real do SAF.
 
+## Revisão documental para publicação
+
+Em **06/10/2026**, no Windows/Python **3.13.3**, foram repetidos os **66 testes** (aprovados), `compileall`, `scripts/check_repository.py` (**PASS, 70 arquivos candidatos**) e as verificações de whitespace dos diffs de trabalho e do índice. O histórico v0.1.0 do changelog foi conferido sem alterações e o JSON v0.2.0 foi copiado byte a byte do arquivo fornecido. O smoke visual não foi repetido nesta revisão; seu resultado acima pertence a 05/10. Nenhum build ou teste Android foi executado.
+
+## Evidência fornecida da v0.2.0
+
+O [build-info.json](releases/v0.2.0/build-info.json) registra o commit `0835bab79306bbf44bf21954dff897d4f936a562`, kernel Colab 3.13.16, Python de build 3.14.7 e APK debug ARM64 de 26.326.438 bytes. O SHA-256 informado está nas [notas da release](releases/v0.2.0/RELEASE_NOTES.md); não foi recalculado aqui.
+
+As [capturas fornecidas pelo autor](screenshots/v0.2.0/README.md), com dados fictícios autorizados, mostram histórico dos três tipos, formulários, seletores de data/hora, gráfico de glicemia, tooltip de diastólica e prévias de importação com 34 novos registros ou oito duplicatas. Isso documenta estados visíveis, sem comprovar persistência após reinício, confirmação da importação, rollback, todos os gestos ou vínculo com o hash do APK. A identificação de aparelho e a validação histórica da v0.1.0 não são automaticamente transferidas para esta versão.
+
 ## Pendências Android v0.2.0
 
-Todo o [checklist Android](ANDROID.md#checklist-android-v020) está pendente, especialmente Samsung Galaxy M55, gestos dos wheels, tooltips, teclado/insets, preservação do arquivo antigo e round-trip pelo SAF. Também falta nova compilação APK e inspeção do manifesto final. Não há alegação de interpretação clínica ou diagnóstico.
+O [checklist Android](ANDROID.md#checklist-android-v020) ainda exige execução completa e registro dos resultados, especialmente gestos dos wheels, tooltips, teclado/insets, preservação do arquivo antigo e round-trip pelo SAF. A inspeção do manifesto final e a conferência independente do binário também estão pendentes. Não há alegação de interpretação clínica ou diagnóstico.
 
 ---
 

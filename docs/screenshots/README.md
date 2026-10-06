@@ -1,4 +1,8 @@
-# Capturas reais — primeiro APK 0.1.0
+# Capturas do VitalRegistro
+
+A [galeria v0.2.0](v0.2.0/README.md) reúne dez capturas com dados fictícios autorizados pelo autor e barra superior removida. Os originais da v0.1.0 abaixo permanecem preservados.
+
+## Capturas históricas v0.1.0
 
 Fornecidas pelo autor a partir de um **Samsung Galaxy M55 com Android 16**, capturas com resolução **720 × 1600**. As medições são **fictícias**, conforme confirmação explícita do autor.
 

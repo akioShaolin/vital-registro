@@ -6,7 +6,7 @@ A revisão atual prepara **v0.2.0**. Somente a versão do aplicativo mudou no sp
 
 O notebook anterior exigia Python 3.10–3.12 e combinava p4a `master`, API 35 e NDK 25b. Ele interrompia no Python 3.13 do Colab antes de instalar as ferramentas. Remover essa restrição não atualizaria as recipes, o compilador nativo nem as dependências Python.
 
-O Google anunciou a [migração do Colab para Python 3.13](https://github.com/googlecolab/colabtools/issues/6081) em agosto de 2026. O build documentado deste projeto utilizou **Python 3.13.15 no kernel**, conforme o build-info fornecido pelo autor. A primeira célula imprime a versão da sessão real, que pode variar entre imagens.
+O Google anunciou a [migração do Colab para Python 3.13](https://github.com/googlecolab/colabtools/issues/6081) em agosto de 2026. Os metadados fornecidos pelo autor registram **Python 3.13.16 no kernel da v0.2.0** e **3.13.15 na v0.1.0**. A primeira célula imprime a versão da sessão real, que pode variar entre imagens.
 
 O fluxo novo separa três interpretadores:
 
@@ -33,6 +33,12 @@ Esta é a configuração preservada do build bem-sucedido documentado para a v0.
 | Bootstrap / ABI | SDL2 / arm64-v8a |
 | Ferramentas Python do build | Cython 3.3.0, setuptools 84.0.0, legacy-cgi 2.6.4 |
 
+### Evidência do build da v0.2.0
+
+O [JSON fornecido pelo autor](releases/v0.2.0/build-info.json) registra kernel Colab **3.13.16**, Python de build **3.14.7**, API **36**, NDK **29** e os mesmos commits Buildozer/p4a da tabela. O projeto foi compilado no commit `0835bab79306bbf44bf21954dff897d4f936a562`. O artefato `vitalregistro-0.2.0-arm64-v8a-debug.apk` tem **26.326.438 bytes**, segundo o JSON. SHA-256 informado e limites estão nas [notas da release](releases/v0.2.0/RELEASE_NOTES.md).
+
+Java, Kivy, Python embarcado e API mínima acima são dados da configuração; o JSON não atesta diretamente todos esses componentes. Não foi executado build nem recalculado o hash nesta revisão. A documentação de fechamento é posterior ao commit que produziu o APK.
+
 ### Evidência do build da v0.1.0
 
 O [build-info.json fornecido pelo autor](releases/v0.1.0/build-info.json) foi preservado sem alterações como registro do ambiente efetivamente utilizado. Ele identifica:
@@ -55,7 +61,7 @@ O autor confirmou instalação e inicialização no **Samsung Galaxy M55 com And
 
 As [capturas históricas](screenshots/README.md) antecedem as correções visuais incluídas no commit identificado. Não devem ser usadas para afirmar que transparência, áreas seguras, teclado ou exportação foram testados no artefato de 26.306.986 bytes. Consulte [VALIDATION.md](VALIDATION.md) para o escopo confirmado.
 
-A v0.1.0 já foi publicada, conforme informado pelo autor. Preserve o JSON junto ao artefato correspondente. Para a v0.2.0, gere novos metadados no build; não reutilize hashes ou evidências da v0.1.0. Nenhuma publicação é feita nesta implementação.
+A v0.1.0 já foi publicada, conforme informado pelo autor. Preserve o JSON junto ao artefato correspondente. A v0.2.0 tem [seu próprio JSON](releases/v0.2.0/build-info.json); não reutilize hashes ou evidências da v0.1.0. Em novas compilações, preserve os metadados correspondentes ao novo artefato. Nenhuma publicação é feita nesta implementação.
 
 A [documentação atual do Buildozer](https://buildozer.readthedocs.io/en/latest/installation/) indica o fluxo moderno com Python 3.14, p4a develop, API 36 e NDK 29, mantendo Java 17. Fixamos commits para evitar mudanças silenciosas nas branches.
 
@@ -113,7 +119,7 @@ O aplicativo permanece offline. `android.permissions` continua vazio, `android.a
 
 Testes de lógica e seleção de ambiente podem ser executados localmente sem SDK. Os testes da preparação usam subprocessos simulados para verificar a escolha do Python e a propagação de falhas; não provam compilação nativa.
 
-**O build Colab e o uso básico no Samsung Galaxy M55 com Android 16 foram confirmados pelo autor.** Essa evidência refere-se à v0.1.0. Na implementação v0.2.0, não foi executado build APK nem teste em hardware. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
+**O build Colab e o uso básico no Samsung Galaxy M55 com Android 16 foram confirmados pelo autor.** Essa evidência refere-se à v0.1.0. Para a v0.2.0, o autor forneceu metadados do build e capturas Android; nesta revisão não houve nova compilação, inspeção do APK ou teste em hardware. Buildozer master e p4a develop continuam sendo versões de desenvolvimento, mesmo fixadas em commits; futuros builds e novos ambientes exigem nova verificação. Consulte [VALIDATION.md](VALIDATION.md).
 
 Na próxima rodada de testes em aparelho, confira o ícone do launcher, margens de status/navegação, formulário e teclado, edição/exclusão, todos os gráficos/períodos, exportação/cancelamento e suspensão/retomada. A exportação SAF está implementada e revisada, mas ainda não foi confirmada em aparelho. Publicação na Play Store continua fora deste fluxo debug.
 

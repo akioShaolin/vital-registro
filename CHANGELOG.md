@@ -1,10 +1,14 @@
 # Changelog
 
-Mudanças relevantes, em estrutura inspirada no Keep a Changelog. A versão 0.1.0 é de desenvolvimento, não estável ou produção.
+Mudanças relevantes, em estrutura inspirada no Keep a Changelog. As versões 0.x são de desenvolvimento. Veja a [política de versionamento](docs/VERSIONING.md).
 
 ## [Unreleased]
 
-Preparação da **v0.2.0**, sem commit/tag/release criados por esta implementação. A seção histórica v0.1.0 abaixo foi preservada.
+Sem alterações registradas.
+
+## [0.2.0] - 2026-10-06
+
+Data de publicação definida pelo autor: **06/10/2026**. Notas preparadas para a publicação no GitHub. Veja as [notas da release](docs/releases/v0.2.0/RELEASE_NOTES.md).
 
 ### Added
 
@@ -24,7 +28,7 @@ Preparação da **v0.2.0**, sem commit/tag/release criados por esta implementaç
 
 ### Validation
 
-Testes locais e smoke são registrados em [VALIDATION.md](docs/VALIDATION.md). Nenhum build APK v0.2.0 ou teste em hardware Android foi executado nesta implementação.
+Testes locais e smoke são registrados em [VALIDATION.md](docs/VALIDATION.md). O [build-info fornecido pelo autor](docs/releases/v0.2.0/build-info.json) registra o APK debug ARM64 de 26.326.438 bytes, produzido pelo commit `0835bab79306bbf44bf21954dff897d4f936a562`. As capturas Android documentam estados da interface; não comprovam todos os fluxos nem vinculam as imagens a esse binário. O fechamento documental é posterior ao commit do build. Nenhum novo APK foi compilado ou inspecionado nesta revisão.
 
 ## [0.1.0] - 2026-09-30
 

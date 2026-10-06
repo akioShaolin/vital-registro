@@ -16,10 +16,12 @@ Mudanças Android devem descrever o aparelho/API testados ou deixar explícito q
 | --- | --- |
 | Desenvolvimento/execução local | Python **3.12 ou 3.13**, com Kivy 2.3.1 de `requirements.txt`, conforme o suporte desktop documentado no README. |
 | CI | Python **3.12, 3.13 e 3.14** na [matriz do GitHub Actions](.github/workflows/tests.yml), para testes de lógica independente e verificação de sintaxe. O workflow não instala Kivy nem executa a interface ou compila Android. |
-| Kernel Google Colab | Python **3.13.15** no build documentado. O notebook detecta a versão da sessão, que pode mudar, e preserva o kernel. |
+| Kernel Google Colab | Python **3.13.16** no build documentado da v0.2.0 (**3.13.15** na v0.1.0). O notebook detecta a versão da sessão, que pode mudar, e preserva o kernel. |
 | Ferramentas de build Android | **CPython 3.14.7 com GIL**, isolado em `.venv-build/`, para Buildozer, p4a e testes. O setup prepara esse interpretador e instala `requirements-build.txt`. |
 | Python embarcado no APK | **3.14.2**, com `hostpython3` também **3.14.2**, conforme `buildozer.spec` e as recipes do commit p4a fixado. É preparado pelo p4a; não precisa ser instalado como Python desktop. |
 
 A cobertura da lógica no CI com Python 3.14 não equivale à validação da interface desktop nessa versão. Para contribuir na interface, mantenha o ambiente local 3.12/3.13; não use `requirements-build.txt` como dependências de execução do aplicativo.
 
 Para compilar, siga [docs/ANDROID.md](docs/ANDROID.md) e o notebook Colab. Em Linux x86_64/WSL2, `scripts/setup_linux.sh` aceita Python >=3.10 apenas para iniciar o preparo e obtém o CPython 3.14.7 isolado quando necessário. Esse requisito inicial não amplia o suporte desktop nem muda o Python embarcado. Não substitua o kernel do Colab ou as versões fixadas para igualar os diferentes ambientes.
+
+Para preparar versões, siga a [política de versionamento](docs/VERSIONING.md) e o [guia de publicação](docs/PUBLISHING.md). A versão do aplicativo, a tag e os formatos de dados têm identificadores distintos.
